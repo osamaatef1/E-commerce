@@ -54,7 +54,7 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2 text-center">
                 <div class="section-title">
-                    <h3><span class="orange-text">Our</span> Products</h3>
+                    <h3><span class="orange-text">Our</span> Categories</h3>
                     <p>Enjoy With Us</p>
                 </div>
             </div>

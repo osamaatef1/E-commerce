@@ -30,6 +30,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <!-- responsive -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
 </head>
@@ -66,16 +72,50 @@
                                     <li><a href="index_2.html">Slider Home</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/product">Product</a></li>
+                            <li><a href="/producttable">Product</a></li>
                             <li><a href="/category">Category</a></li>
                             <li><a href="/addproduct">Add Product</a></li>
                             <li><a href="/reviews">Reviews</a></li>
+
+                            @guest
+                                @if (Route::has('login'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    </li>
+                                @endif
+
+                                @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                            @else
+                                <li>
+                                    <a  href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }}
+                                    </a>
+                                </li>
+
+                            <li>
+
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+
+                                </li>
+                            @endguest
 
                             <li><a href="#">Pages</a>
                                 <ul class="sub-menu">
                                     <li><a href="404.html">404 page</a></li>
                                     <li><a href="about.html">About</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="/cart">Cart</a></li>
                                     <li><a href="checkout.html">Check Out</a></li>
                                     <li><a href="contact.html">Contact</a></li>
                                     <li><a href="news.html">News</a></li>
@@ -88,12 +128,12 @@
                                     <li><a href="shop.html">Shop</a></li>
                                     <li><a href="checkout.html">Check Out</a></li>
                                     <li><a href="single-product.html">Single Product</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="/cart">Cart</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <div class="header-icons">
-                                    <a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                                    <a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                                 </div>
                             </li>
@@ -118,8 +158,11 @@
                 <div class="search-bar">
                     <div class="search-bar-tablecell">
                         <h3>Search For:</h3>
-                        <input type="text" placeholder="Keywords">
+                        <form method="post" action="/search" >
+                            @csrf
+                        <input type="text" placeholder="Keywords" name="searchkey">
                         <button type="submit">Search <i class="fas fa-search"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>

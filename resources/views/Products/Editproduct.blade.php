@@ -10,7 +10,7 @@
                     </div>
                     <div id="form_status"></div>
                     <div class="contact-form">
-                        <form method="post" action="/editproduct/{{$product->id}}">
+                        <form enctype="multipart/form-data" method="post" action="/editproduct/{{$product->id}} ">
                             @csrf
                             <p>
                                 <input type="text" placeholder="Name" name="name" id="name" value="{{$product->name}}">
@@ -38,6 +38,10 @@
                                 </span>
                                 <p>
 
+                            <p>
+                                <input type="file" name="photo" id="photo" class="form-control">
+                            </p>
+                                <img src="{{asset($product->imagepath)}}" alt="" height="250" width="200" >
                             </p>
                             <p><textarea name="description" id="description"  placeholder="description">{{$product->description}}</textarea></p>
                             <select placeholder="category" name="cat_id" id="cat_id" class="form-control" style="height: 40px; font-size: 16px;">

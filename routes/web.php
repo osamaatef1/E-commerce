@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductPhotoController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReviewController;
 use App\Models\Category;
@@ -38,6 +40,21 @@ Route::get('/removeproduct/{id}',[ProductsController::class,'RemoveProduct']);
 Route::post('/editproduct/{id}',[ProductsController::class,'EditProduct']);
 Route::get('/edit/{id}',[ProductsController::class,'edit']);
 Route::post('/storeproduct',[ProductsController::class,'storeproduct']);
+
+
+Route::get('/addproductimage/{id}',[ProductPhotoController::class,'addProductImage']);
+Route::get('/removeproductimage/{id}',[ProductPhotoController::class,'removeproductimage']);
+Route::post('/storeProductImage',[ProductPhotoController::class,'storeProductImage']);
+
+
 Route::post('/addreview',[ReviewController::class,'addreview']);
 
+Route::get('/producttable',[ProductsController::class , 'ProductTable']);
+Route::get('/cart',[CartController::class , 'index']);
+Route::get('/deletecartitem/{cartid}',[CartController::class , 'deleteItem']);
+Route::get('/addproducttocart/{product_id}',[CartController::class , 'Addproducttocart'])->middleware('auth');
+Route::post('/search',[ProductsController::class , 'Search']);
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

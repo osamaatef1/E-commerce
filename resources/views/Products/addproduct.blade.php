@@ -11,7 +11,7 @@
                     </div>
                     <div id="form_status"></div>
                     <div class="contact-form">
-                        <form method="post" action="/storeproduct">
+                        <form method="post" action="/storeproduct" enctype="multipart/form-data">
                             @csrf
                             <p>
                                 <input type="text" placeholder="Name" name="name" id="name">
@@ -38,7 +38,7 @@
 
                                 </span>
                                 <p>
-
+                                <input type="file" name="photo" id="photo" class="form-control">
                             </p>
                             <p><textarea name="description" id="description"  placeholder="description"></textarea></p>
                             <select placeholder="category" name="cat_id" id="cat_id" class="form-control" style="height: 40px; font-size: 16px;">
@@ -46,7 +46,7 @@
                                     <option value="{{$cat->id}}">{{$cat->name}}</option>
                                 @endforeach
                             </select>
-<br>
+                                <br>
                             <input type="hidden" name="token" value="FsWga4&@f6aw" />
                             <p><input type="submit" value="Submit"></p>
                         </form>
