@@ -18,8 +18,8 @@
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="single-product-item">
                         <div class="product-image">
-                            <a href="/product/{{$pro->cat_id}}"><img
-                                    src="{{$pro->imagepath}}"
+                            <a href="/single-product/{{$pro->id}}"><img
+                                    src="{{asset($pro->imagepath)}}"
 
                                     alt=""></a>
                         </div>
@@ -48,7 +48,7 @@
                 @endforeach
 
                     <div style="height: 5px ; text-align: center !important;">
-    {{ $products->links() }}
+{{--    {{ $products->links() }}--}}
 
                     </div>
 <style>

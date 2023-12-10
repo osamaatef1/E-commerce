@@ -8,14 +8,21 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Mockery\Exception;
+use App\Jobs\SetProductNames;
 
 class ProductsController extends Controller
 {
+
    public function index(){
-       $products = Product::all()->paginate(3);
-       dd($products);
+       $products = Product::all();
        return view('product',['products'=>$products]);
    }
+
+    public function showProduct($id){
+        $product = Product::with('category','productPhoto')->find($id);
+        $relatedProducts = Product::where('cat_id',$product->cat_id)->where('id','!=',$product->id)->inRandomOrder()->take(3)->get();
+        return view('Products.showproduct',['product'=>$product ,'relatedProducts'=>$relatedProducts ]);
+    }
 
    public function GetProducts($cat_id = null){
        if ($cat_id){
@@ -23,7 +30,7 @@ class ProductsController extends Controller
            return view('product',['products'=>$result]);
        }else{
 
-           $all = Product::paginate(3);
+           $all = Product::paginate(12);
            return view('product',['products'=>$all]);
        }
    }
@@ -31,6 +38,25 @@ class ProductsController extends Controller
    public function AddProduct(){
        $AllCategories = Category::all();
 return view('Products.addproduct' , ['categories'=>$AllCategories]);
+   }
+
+
+   public function setter(){
+       Product::query()->update(['description' => 'ProductAfterQueue']);
+
+//       \DB::table('products')->update(['description' => 'ProductAfterQueue']);
+//
+//       $products = Product::all();
+//       foreach ($products as $product){
+//           $product->update(['description' => 'ProductAfterQueue']);
+//       }
+//
+//       $products = Product::all();
+//       foreach ($products as $product){
+//           $product->description = 'ProductAfterQueue';
+//           $product->save();
+//       }
+//       SetProductNames::dispatch('ProductAfterQueue');
    }
 
 
@@ -110,6 +136,13 @@ public function ProductTable(){
        $all = Product::all();
        return view ('products.ProductTable' ,['products'=>$all]);
 
+
+}
+
+public function newestProducts(){
+       $newest = Product::newest()->get();
+
+    return view ('products.ProductTable' ,['products'=>$newest]);
 
 }
 

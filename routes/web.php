@@ -4,10 +4,12 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductPhotoController;
 use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\ReviewController;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use Modules\Category\app\Http\Controllers\CategoryController;
+use Modules\Review\app\Http\Controllers\ReviewController;
+use Modules\Review\app\Http\Controllers\ReviewController as ReviewControllerModule;
 
 
 /*
@@ -25,15 +27,19 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get('/' ,[CategoriesController::class , 'index'] );
+Route::get('/' ,[CategoryController::class , 'index'] );
 
 
 Route::get('/product/{cat_id?}',[ProductsController::class , 'GetProducts']);
+Route::get('/product/new',[ProductsController::class , 'newestProducts']); //Newest (Scope)
+Route::get('/single-product/{id}',[ProductsController::class , 'showProduct']);
 
 
 
-Route::get('/category',[CategoriesController::class,'FilterProducts']);
+Route::get('/category',[CategoryController::class,'FilterProducts']);
 Route::get('/reviews',[ReviewController::class,'index']);
+Route::get('/newestproducts',[ProductsController::class,'index']);
+Route::get('/newestproductsqueue',[ProductsController::class,'setter']);
 
 Route::get('/addproduct',[ProductsController::class,'AddProduct']);
 Route::get('/removeproduct/{id}',[ProductsController::class,'RemoveProduct']);
@@ -44,10 +50,10 @@ Route::post('/storeproduct',[ProductsController::class,'storeproduct']);
 
 Route::get('/addproductimage/{id}',[ProductPhotoController::class,'addProductImage']);
 Route::get('/removeproductimage/{id}',[ProductPhotoController::class,'removeproductimage']);
-Route::post('/storeProductImage',[ProductPhotoController::class,'storeProductImage']);
+Route::post('/storeProductImage/{id}',[ProductPhotoController::class,'storeProductImage']);
 
 
-Route::post('/addreview',[ReviewController::class,'addreview']);
+Route::post('/addreview',[ReviewControllerModule::class,'addreview']);
 
 Route::get('/producttable',[ProductsController::class , 'ProductTable']);
 Route::get('/cart',[CartController::class , 'index']);
